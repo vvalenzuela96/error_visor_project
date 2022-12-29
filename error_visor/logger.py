@@ -9,7 +9,6 @@ from pathlib import Path
 from inspect import currentframe, getframeinfo
 from datetime import datetime
 from enum import Enum
-from types import FrameType
 
 
 date_format = "%d/%m/%Y, %H:%M:%S"
@@ -18,11 +17,6 @@ class RType(Enum):
     ERR = 'error'
     WARN = 'warning'
     #INFO = 3
-
-class Priority(Enum):
-    LOW = 'low'
-    MID = 'mid'
-    HIGH = 'high'
 
 class Registry():
     """
@@ -46,6 +40,7 @@ class Registry():
         self.ex = ex
     
     def get_information(self) -> dict:
+        #FIXME Fix the frame f_back when its a module
         frame = currentframe().f_back.f_back.f_back
         tb = getframeinfo(frame)
 
@@ -62,6 +57,11 @@ class Registry():
         information['positions'] = tb.positions
 
         return information
+
+class Priority(Enum):
+    LOW = 'low'
+    MID = 'mid'
+    HIGH = 'high'
 
 class Error(Registry):
     priority:Priority
@@ -148,7 +148,7 @@ class Warning(Registry):
 #TODO Add an Info Class to the logger
 
 #TODO Make a file length detector to backup the file and initialize a new one
-def _save_dict(obj:Error | Warning):
+def _save_dict(obj:dict):
     
     if not os.path.isdir('logs'):
         file_path = Path('logs/log.ev')

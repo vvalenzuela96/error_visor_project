@@ -40,11 +40,11 @@ Para una `advertencia`/`warning`:
 ```python
 except Exception as ex:
 
-	EV.Logger.err(
+	EV.Logger.warn(
 		EV.Warning(
 			description='Advertencia de muestra',
 			ex=ex,
-      follow_me=True
+      		follow_me=True
 		)
 	)
 
