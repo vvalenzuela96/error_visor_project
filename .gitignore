@@ -1,2 +1,4 @@
-ev_env/*
-ev_env/
+**/ev_env/
+*.pyc
+**/__pycache__/
+**/logs/
