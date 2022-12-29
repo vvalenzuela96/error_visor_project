@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: error-visor
-Version: 0.0.1
+Version: 0.0.2
 Summary: Librería para guardar registros de errores y warnings personalizados en json
 Home-page: https://github.com/vvalenzuela96
 Author: Victor Valenzuela M
@@ -40,3 +40,12 @@ except Exception as ex:
 ```
 
 Y listo, tendremos el registro en un json!
+
+
+## CHANGELOG
+
+### v0.0.2
+- Fixed: Making of new `logs` dir when that not exists
+
+### v0.0.1
+- First upload

@@ -4,6 +4,7 @@
 """
 
 import json
+from pathlib import Path
 from inspect import currentframe, getframeinfo
 from datetime import datetime
 from enum import Enum
@@ -111,11 +112,9 @@ class Logger():
         frame = currentframe().f_back
         error_dict  = _to_dict(error, frame)
 
-        try:
-            with open('logs/log.ev', 'x') as file:
-                file.write('[]')
-        except FileExistsError as ex:
-            pass
+        file_path = Path('logs/log.ev')
+        file_path.parent.mkdir(exist_ok=True, parents=True)
+        file_path.write_text('[]')
 
         with open('logs/log.ev', 'r') as file:
             lista:list = json.load(file)
@@ -132,11 +131,9 @@ class Logger():
         frame = currentframe().f_back
         warn_dict  = _to_dict(warn, frame)
 
-        try:
-            with open('logs/log.ev', 'x') as file:
-                file.write('[]')
-        except FileExistsError as ex:
-            pass
+        file_path = Path('logs/log.ev')
+        file_path.parent.mkdir(exist_ok=True, parents=True)
+        file_path.write_text('[]')
 
         with open('logs/log.ev', 'r') as file:
             lista:list = json.load(file)
