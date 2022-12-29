@@ -3,7 +3,7 @@ from setuptools import find_packages, setup
 
 HERE = pathlib.Path(__file__).parent
 
-VERSION = '0.0.2' #TODO Update to the new version
+VERSION = '0.0.3'
 PACKAGE_NAME = 'error_visor'
 AUTHOR = 'Victor Valenzuela M'
 AUTHOR_EMAIL = 'vi.valenzuelam@gmail.com'
