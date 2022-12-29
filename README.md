@@ -7,7 +7,13 @@ sentencia y listo, ya tienes el registro del error en tu app.
 
 ## Cómo funciona?
 
-Primero importamos el módulo:
+Primero instalamos con:
+
+```bash
+pip install error-visor
+```
+
+Importamos el módulo:
 
 ```python
 import error_visor as EV
