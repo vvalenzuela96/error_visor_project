@@ -1,43 +1,26 @@
+""" 
+Script para probar logger
+
+@author Victor Valenzuela M
+"""
 
 import error_visor as EV
-
-from inspect import currentframe, getframeinfo
-
-def info():
-    trak = getframeinfo(currentframe().f_back)
-    return trak
-
-
-frame_info = info()
-print(frame_info.lineno)
 
 class TestLogger:
     def testing_logger():
         try:
             print('Test de excepcion repr')
+
+            #Raise FileNotFoundError forced to test logger
             with open('a'):
                 pass
+
         except FileNotFoundError as ex:
-            print(ex.args)
-            print('###################################')
-            print(ex.__cause__)
-            print('###################################')
-            print(ex.__context__)
-            print('###################################')
-            print(ex.__dict__)
-            print('###################################')
-            print(ex.__doc__)
-            EV.Logger.err(EV.Error(description='Error de prueba', ex=ex, priority=EV.Priority.HIGH))
-            print('###################################')
-            # print(ex.__annotations__)
-            # print('###################################')
-            # print(ex.__annotations__)
-            # print('###################################')
-            # print(ex.__annotations__)
-            # print('###################################')
-            # print(ex.__annotations__)
-            # print('###################################')
-            # print(ex.__annotations__)
+            error = EV.Error(
+                description='Error de prueba',
+                priority=EV.Priority.HIGH,
+                ex=ex
+                )
+            EV.Logger.err(error)
 
-
-TestLogger.testing_logger()
+TestLogger.testing_logger() #This class method is like a run()
