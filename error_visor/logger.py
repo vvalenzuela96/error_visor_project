@@ -46,7 +46,32 @@ class Error():
 
 class Warning():
     'Para acciones que podrian generar problemas, pero funcionan igual'
-    #TODO Warning class code
+    description:str
+    follow_me:bool
+    timestamp:datetime
+    ex:Exception
+
+    def __init__(
+            self,
+            description:str='',
+            follow_me:bool=False,
+            timestamp:datetime=datetime.now(),
+            ex:Exception=None) -> None:
+        self.description = description
+        self.follow_me = follow_me
+        self.timestamp = timestamp
+        self.ex = ex
+    
+    def __repr__(self) -> str:
+        return f"""Error(
+                        description={self.description},
+                        follow_me={self.follow_me},
+                        timestamp={self.timestamp},
+                        ex={self.ex}
+                    )
+                    """
+
+#TODO Add an Info Class to the logger
 
 def _to_dict(obj:Error | Warning, frame:FrameType) -> dict:
     tb = getframeinfo(frame)
@@ -65,8 +90,21 @@ def _to_dict(obj:Error | Warning, frame:FrameType) -> dict:
             'positions': tb.positions
         }
     elif isinstance(obj, Warning):
-        pass #TODO Warning transformation to dict
+        return {
+            'type': 'warning',
+            'description': obj.description,
+            'follow_me': obj.follow_me,
+            'timestamp': obj.timestamp.strftime(date_format),
+            'ex_name': obj.ex.__class__.__name__,
+            'ex_args': obj.ex.args,
+            'line': tb.lineno,
+            'filename': tb.filename.split('\\')[-1],
+            'class': frame.f_code.co_qualname,
+            'function': tb.function,
+            'positions': tb.positions
+        }
 
+#TODO Make a file length detector to backup the file and initialize a new one
 class Logger():
     @staticmethod
     def err(error:Error, printable:bool=False) -> bool:
@@ -86,3 +124,26 @@ class Logger():
 
         with open('logs/log.ev', 'w') as file:
             file.write(json.dumps(lista))
+
+        return True
+    
+    @staticmethod
+    def warn(warn:Warning, printable:bool=False) -> bool:
+        frame = currentframe().f_back
+        warn_dict  = _to_dict(warn, frame)
+
+        try:
+            with open('logs/log.ev', 'x') as file:
+                file.write('[]')
+        except FileExistsError as ex:
+            pass
+
+        with open('logs/log.ev', 'r') as file:
+            lista:list = json.load(file)
+        
+        lista.append(warn_dict)
+
+        with open('logs/log.ev', 'w') as file:
+            file.write(json.dumps(lista))
+        
+        return True
