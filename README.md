@@ -30,3 +30,12 @@ except Exception as ex:
 ```
 
 Y listo, tendremos el registro en un json!
+
+
+## CHANGELOG
+
+### v0.0.2
+- Fixed: Making of new `logs` dir when that not exists
+
+### v0.0.1
+- First upload
