@@ -6,6 +6,7 @@ Script para probar logger
 
 import error_visor as EV
 
+
 class TestLogger:
     def testing_logger():
         try:
@@ -16,11 +17,15 @@ class TestLogger:
                 pass
 
         except FileNotFoundError as ex:
-            error = EV.Error(
+            EV.Logger.err(EV.Error(
                 description='Error de prueba',
-                priority=EV.Priority.HIGH,
-                ex=ex
-                )
-            EV.Logger.err(error)
+                ex=ex,
+                priority=EV.Priority.HIGH
+                ))
+            EV.Logger.err(EV.Warning(
+                description='Advertencia de prueba',
+                ex=ex,
+                follow_me=False
+                ))
 
 TestLogger.testing_logger() #This class method is like a run()

@@ -28,8 +28,23 @@ except Exception as ex:
 	EV.Logger.err(
 		EV.Error(
 			description='Error de muestra',
-			priority=EV.Priority.HIGH,
-			ex=ex
+			ex=ex,
+			priority=EV.Priority.HIGH
+		)
+	)
+
+```
+
+Para una `advertencia`/`warning`:
+
+```python
+except Exception as ex:
+
+	EV.Logger.err(
+		EV.Warning(
+			description='Advertencia de muestra',
+			ex=ex,
+      follow_me=True
 		)
 	)
 
@@ -39,6 +54,11 @@ Y listo, tendremos el registro en un json!
 
 
 ## CHANGELOG
+
+### v0.0.3
+- Fixed: Making of new `logs` dir when that not exists. Really work now!
+- Added: Warning Type
+- Modified: RTypes have have new format to use. RTypes are like: `EV.Error`, `EV.Warning`, etc.
 
 ### v0.0.2
 - Fixed: Making of new `logs` dir when that not exists
