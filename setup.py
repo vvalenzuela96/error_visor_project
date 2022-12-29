@@ -7,7 +7,7 @@ VERSION = '0.0.2'
 PACKAGE_NAME = 'error_visor'
 AUTHOR = 'Victor Valenzuela M'
 AUTHOR_EMAIL = 'vi.valenzuelam@gmail.com'
-URL = 'https://github.com/vvalenzuela96'
+URL = 'https://github.com/vvalenzuela96/error_visor_project'
 
 LICENSE = 'MIT'
 DESCRIPTION = 'Librería para guardar registros de errores y warnings personalizados en json'
