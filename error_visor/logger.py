@@ -10,7 +10,7 @@ from datetime import datetime
 from enum import Enum
 
 
-DATE_FORMAT = "%d/%m/%Y, %H:%M:%S"
+DATE_FORMAT = "%d/%m/%Y %H:%M:%S"
 LOG_PATH = 'logs/log.ev'
 
 class RType(Enum):
