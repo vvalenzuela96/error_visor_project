@@ -55,6 +55,16 @@ Y listo, tendremos el registro en un json!
 
 ## CHANGELOG
 
+### v0.0.4
+- Modified: Now to log should be:
+```python
+EV.log(EV.Error(...))
+#or
+EV.log(EV.Warning(...))
+```
+- Modified: RTypes have new attr `context`. Its a merge between `function` and `class`.
+- Fixed: Make of new log when the `logs` dir exists. The new log file wasn't created or created empty.
+
 ### v0.0.3
 - Fixed: Making of new `logs` dir when that not exists. Really work now!
 - Added: Warning Type

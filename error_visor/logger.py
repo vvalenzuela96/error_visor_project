@@ -3,7 +3,6 @@
 @since 28-12-22
 """
 
-import os
 import json
 from pathlib import Path
 from inspect import currentframe, getframeinfo
@@ -11,7 +10,8 @@ from datetime import datetime
 from enum import Enum
 
 
-date_format = "%d/%m/%Y, %H:%M:%S"
+DATE_FORMAT = "%d/%m/%Y, %H:%M:%S"
+LOG_PATH = 'logs/log.ev'
 
 class RType(Enum):
     ERR = 'error'
@@ -39,22 +39,22 @@ class Registry():
         self.timestamp = timestamp
         self.ex = ex
     
-    def get_information(self) -> dict:
-        #FIXME Fix the frame f_back when its a module
+    def get_json(self) -> dict:
         frame = currentframe().f_back.f_back.f_back
         tb = getframeinfo(frame)
 
         information = {}
         information['type'] = self.r_type.value
         information['description'] = self.description
-        information['timestamp'] = self.timestamp.strftime(date_format)
-        information['ex_name'] = self.ex.__class__.__name__
-        information['ex_args'] = self.ex.args
+        information['timestamp'] = self.timestamp.strftime(DATE_FORMAT)
         information['line'] = tb.lineno
         information['filename'] = tb.filename.split('\\')[-1]
-        information['class'] = frame.f_code.co_qualname
-        information['function'] = tb.function
+        information['context'] = frame.f_code.co_qualname
         information['positions'] = tb.positions
+
+        if self.ex is not None:
+            information['ex_name'] = self.ex.__class__.__name__
+            information['ex_args'] = self.ex.args
 
         return information
 
@@ -90,8 +90,8 @@ class Error(Registry):
             ex=ex
         )
     
-    def get_information(self):
-        information = super(Error, self).get_information()
+    def get_json(self) -> dict:
+        information = super(Error, self).get_json()
         information['priority'] = self.priority.value
         return information
     
@@ -131,8 +131,8 @@ class Warning(Registry):
             ex=ex
         )
     
-    def get_information(self):
-        information = super(Warning, self).get_information()
+    def get_json(self) -> dict:
+        information = super(Warning, self).get_json()
         information['follow_me'] = self.follow_me
         return information
     
@@ -147,29 +147,31 @@ class Warning(Registry):
 
 #TODO Add an Info Class to the logger
 
-#TODO Make a file length detector to backup the file and initialize a new one
-def _save_dict(obj:dict):
-    
-    if not os.path.isdir('logs'):
-        file_path = Path('logs/log.ev')
-        file_path.parent.mkdir(exist_ok=True, parents=True)
-        file_path.write_text('[]')
+def create_logfile() -> None:
+    try:
+        path = Path(LOG_PATH)
+        path.parent.mkdir(parents=True)
+        path.write_text('[]')
+    except FileExistsError as ex:
+        if not path.exists():
+            with open(LOG_PATH, 'w') as new_file:
+                return new_file.write('[]')
 
-    with open('logs/log.ev', 'r') as file:
-        lista:list = json.load(file)
-    
+def get_previous_logs() -> list:
+    with open(f'{LOG_PATH}', 'r') as file:
+        return json.load(file)
+
+def save_log_to_file(obj:dict) -> bool:
+    lista = get_previous_logs()
     lista.append(obj)
 
     with open('logs/log.ev', 'w') as file:
-        file.write(json.dumps(lista))
-
-class Logger():
-    @staticmethod
-    def err(error:Error, printable:bool=False) -> bool:
-        error_info = error.get_information()
-        return _save_dict(error_info)
+        return bool(file.write(json.dumps(lista)))
     
-    @staticmethod
-    def warn(warn:Warning, printable:bool=False) -> bool:
-        warn_info  = warn.get_information()
-        return _save_dict(warn_info)
+#TODO Make a file length detector to backup the file and initialize a new one
+def add_log(obj:dict) -> bool:
+    create_logfile()
+    return save_log_to_file(obj)
+
+def log(obj:Error | Warning, printable:bool=False) -> bool:
+    return add_log(obj.get_json())
