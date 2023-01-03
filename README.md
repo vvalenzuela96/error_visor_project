@@ -55,6 +55,10 @@ Y listo, tendremos el registro en un json!
 
 ## CHANGELOG
 
+### v0.0.5
+- Added: printable function to EV.log() -> It prints the status of the log to save
+- Fixed: When we pass an Exception with args, it raises a JSONDecodeError!
+
 ### v0.0.4
 - Modified: Now to log should be:
 ```python
