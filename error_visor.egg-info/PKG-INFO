@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: error-visor
-Version: 0.0.3
+Version: 0.0.4
 Summary: Librería para guardar registros de errores y warnings personalizados en json
 Home-page: https://github.com/vvalenzuela96/error_visor_project
 Author: Victor Valenzuela M
@@ -35,7 +35,7 @@ colocamos el siguiente código:
 ```python
 except Exception as ex:
 
-	EV.Logger.err(
+	EV.log(
 		EV.Error(
 			description='Error de muestra',
 			ex=ex,
@@ -50,7 +50,7 @@ Para una `advertencia`/`warning`:
 ```python
 except Exception as ex:
 
-	EV.Logger.warn(
+	EV.log(
 		EV.Warning(
 			description='Advertencia de muestra',
 			ex=ex,
@@ -64,6 +64,16 @@ Y listo, tendremos el registro en un json!
 
 
 ## CHANGELOG
+
+### v0.0.4
+- Modified: Now to log should be:
+```python
+EV.log(EV.Error(...))
+#or
+EV.log(EV.Warning(...))
+```
+- Modified: RTypes have new attr `context`. Its a merge between `function` and `class`.
+- Fixed: Make of new log when the `logs` dir exists. The new log file wasn't created or created empty.
 
 ### v0.0.3
 - Fixed: Making of new `logs` dir when that not exists. Really work now!

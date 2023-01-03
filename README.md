@@ -25,7 +25,7 @@ colocamos el siguiente código:
 ```python
 except Exception as ex:
 
-	EV.Logger.err(
+	EV.log(
 		EV.Error(
 			description='Error de muestra',
 			ex=ex,
@@ -40,7 +40,7 @@ Para una `advertencia`/`warning`:
 ```python
 except Exception as ex:
 
-	EV.Logger.warn(
+	EV.log(
 		EV.Warning(
 			description='Advertencia de muestra',
 			ex=ex,

@@ -6,4 +6,4 @@
 from .logger import Priority
 from .logger import Error
 from .logger import Warning
-from .logger import Logger
+from .logger import log
