@@ -55,6 +55,9 @@ Y listo, tendremos el registro en un json!
 
 ## CHANGELOG
 
+### v0.0.6
+- Fixed: Package .whl has the wrong uploaded
+
 ### v0.0.5
 - Added: printable function to EV.log() -> It prints the status of the log to save
 - Fixed: When we pass an Exception with args, it raises a JSONDecodeError!

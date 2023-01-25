@@ -1,12 +1,11 @@
 Metadata-Version: 2.1
 Name: error-visor
-Version: 0.0.5
+Version: 0.0.6
 Summary: Librería para guardar registros de errores y warnings personalizados en json
 Home-page: https://github.com/vvalenzuela96/error_visor_project
 Author: Victor Valenzuela M
 Author-email: vi.valenzuelam@gmail.com
 License: MIT
-Platform: UNKNOWN
 Description-Content-Type: text/markdown
 
 # Error Visor
@@ -66,6 +65,9 @@ Y listo, tendremos el registro en un json!
 
 ## CHANGELOG
 
+### v0.0.6
+- Fixed: Package .whl has the wrong uploaded
+
 ### v0.0.5
 - Added: printable function to EV.log() -> It prints the status of the log to save
 - Fixed: When we pass an Exception with args, it raises a JSONDecodeError!
@@ -90,5 +92,3 @@ EV.log(EV.Warning(...))
 
 ### v0.0.1
 - First upload
-
-

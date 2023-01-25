@@ -4,6 +4,7 @@
 """
 
 import json
+import sys
 from pathlib import Path
 from inspect import currentframe, getframeinfo
 from datetime import datetime
@@ -54,7 +55,7 @@ class Registry():
 
         if self.ex is not None:
             information['ex_name'] = self.ex.__class__.__name__
-            information['ex_args'] = self.ex.args
+            information['ex_args'] = str(self.ex.args)
 
         return information
 
@@ -80,7 +81,7 @@ class Error(Registry):
             description (str, optional): A short description for the warning. Defaults to ''.
             timestamp (datetime, optional): date and time what ocurred. Defaults to datetime.now().
             ex (Exception, optional): Exception for more details. Defaults to None.
-            priority (bool, optional): When we have more than one error, we need to classify that. Defaults to False.
+            priority (Priority, optional): When we have more than one error, we need to classify that. Defaults to False.
         """
         self.priority = priority
         super(Error, self).__init__(
@@ -174,4 +175,7 @@ def add_log(obj:dict) -> bool:
     return save_log_to_file(obj)
 
 def log(obj:Error | Warning, printable:bool=False) -> bool:
-    return add_log(obj.get_json())
+    status = add_log(obj.get_json())
+    if printable:
+        print(f'Saved log status: {"Correcto" if status else "Fallido"}', file=sys.stderr)
+    return status
